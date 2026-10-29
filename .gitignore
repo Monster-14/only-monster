@@ -25,6 +25,7 @@ hs_err_pid*
 **/application-secret.yml
 
 # Uploads
+uploads/
 server/uploads/
 *.glb
 *.hdr

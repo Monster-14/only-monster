@@ -11,8 +11,8 @@
       <el-form-item label="简介">
         <el-input v-model="form.bio" type="textarea" :rows="4" maxlength="4000" />
       </el-form-item>
-      <el-form-item label="头像链接">
-        <el-input v-model="form.avatarUrl" placeholder="https://..." />
+      <el-form-item label="头像">
+        <ImageUpload v-model="form.avatarUrl" />
       </el-form-item>
       <el-form-item label="邮箱">
         <el-input v-model="form.email" />
@@ -37,6 +37,7 @@
 import { onMounted, reactive, ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import { fetchAdminProfile, updateAdminProfile } from '@/api/profile'
+import ImageUpload from '@/components/ImageUpload.vue'
 import type { SiteProfile } from '@/api/types'
 
 const saving = ref(false)

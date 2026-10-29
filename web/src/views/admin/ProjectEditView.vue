@@ -19,8 +19,8 @@
           <el-option v-for="tag in form.techStack" :key="tag" :label="tag" :value="tag" />
         </el-select>
       </el-form-item>
-      <el-form-item label="封面链接">
-        <el-input v-model="form.coverUrl" />
+      <el-form-item label="封面">
+        <ImageUpload v-model="form.coverUrl" />
       </el-form-item>
       <el-form-item label="演示地址">
         <el-input v-model="form.demoUrl" />
@@ -50,6 +50,7 @@ import { computed, onMounted, reactive, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { createAdminProject, fetchAdminProject, updateAdminProject } from '@/api/project'
+import ImageUpload from '@/components/ImageUpload.vue'
 import type { ProjectItem } from '@/api/types'
 
 const route = useRoute()

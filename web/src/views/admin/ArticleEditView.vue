@@ -11,8 +11,8 @@
       <el-form-item label="摘要">
         <el-input v-model="form.summary" maxlength="255" />
       </el-form-item>
-      <el-form-item label="封面链接">
-        <el-input v-model="form.coverUrl" />
+      <el-form-item label="封面">
+        <ImageUpload v-model="form.coverUrl" />
       </el-form-item>
       <el-form-item label="Markdown">
         <el-input v-model="form.contentMd" type="textarea" :rows="14" placeholder="支持标题、列表和代码块" />
@@ -36,6 +36,7 @@ import { computed, onMounted, reactive, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { createAdminArticle, fetchAdminArticle, updateAdminArticle } from '@/api/article'
+import ImageUpload from '@/components/ImageUpload.vue'
 
 const route = useRoute()
 const router = useRouter()
