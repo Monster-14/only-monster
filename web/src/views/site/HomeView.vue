@@ -1,62 +1,35 @@
 <template>
   <section class="hero">
-    <p class="eyebrow">MONSTER PORTFOLIO</p>
-    <h1>个人主页脚手架已就绪</h1>
-    <p class="lead">
-      当前是第一步：Vue3 前台、Spring Boot 后台、统一响应和本地代理已经打通。
-    </p>
-    <el-card id="health" class="status-card" shadow="never">
-      <template #header>
-        <div class="card-head">
-          <span>后端健康检查</span>
-          <el-button type="primary" :loading="loading" @click="loadHealth">重新检测</el-button>
-        </div>
-      </template>
-      <el-alert
-        v-if="ok"
-        type="success"
-        :closable="false"
-        :title="`接口正常 · ${health?.app} · ${health?.status}`"
-      />
-      <el-alert
-        v-else-if="error"
-        type="error"
-        :closable="false"
-        :title="error"
-      />
-      <el-empty v-else description="点击按钮请求 /api/public/health" />
-      <pre v-if="health">{{ JSON.stringify(health, null, 2) }}</pre>
-    </el-card>
+    <div v-if="profile" class="intro">
+      <img v-if="profile.avatarUrl" class="avatar" :src="profile.avatarUrl" :alt="profile.name" />
+      <div v-else class="avatar avatar-fallback">{{ initials }}</div>
+      <p class="eyebrow">{{ profile.headline || 'PERSONAL SITE' }}</p>
+      <h1>{{ profile.name }}</h1>
+      <p class="lead">{{ profile.bio }}</p>
+      <div class="links">
+        <a v-if="profile.githubUrl" :href="profile.githubUrl" target="_blank" rel="noreferrer">GitHub</a>
+        <a v-if="profile.email" :href="`mailto:${profile.email}`">邮箱</a>
+        <a v-if="profile.blogUrl" :href="profile.blogUrl" target="_blank" rel="noreferrer">博客</a>
+        <span v-if="profile.wechat">微信：{{ profile.wechat }}</span>
+      </div>
+    </div>
+    <el-skeleton v-else :rows="4" animated />
   </section>
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
-import { fetchHealth } from '@/api/health'
-import type { HealthData } from '@/api/types'
+import { computed, onMounted, ref } from 'vue'
+import { fetchPublicProfile } from '@/api/profile'
+import type { SiteProfile } from '@/api/types'
 
-const loading = ref(false)
-const ok = ref(false)
-const error = ref('')
-const health = ref<HealthData | null>(null)
+const profile = ref<SiteProfile | null>(null)
 
-async function loadHealth() {
-  loading.value = true
-  error.value = ''
-  try {
-    const { data } = await fetchHealth()
-    health.value = data.data
-    ok.value = data.code === 0
-  } catch (err) {
-    ok.value = false
-    health.value = null
-    error.value = err instanceof Error ? err.message : '后端未启动或代理失败'
-  } finally {
-    loading.value = false
-  }
-}
+const initials = computed(() => (profile.value?.name || 'M').slice(0, 1).toUpperCase())
 
-onMounted(loadHealth)
+onMounted(async () => {
+  const { data } = await fetchPublicProfile()
+  profile.value = data.data
+})
 </script>
 
 <style scoped>
@@ -66,8 +39,31 @@ onMounted(loadHealth)
   padding: 72px 24px 96px;
 }
 
+.intro {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.avatar {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 20px;
+}
+
+.avatar-fallback {
+  display: grid;
+  place-items: center;
+  background: var(--monster-primary);
+  color: #fff;
+  font-size: 32px;
+  font-weight: 700;
+}
+
 .eyebrow {
-  letter-spacing: 0.18em;
+  letter-spacing: 0.12em;
   color: var(--monster-primary);
   font-size: 13px;
   margin-bottom: 12px;
@@ -82,25 +78,19 @@ h1 {
   color: var(--monster-muted);
   font-size: 16px;
   line-height: 1.7;
-  margin-bottom: 32px;
+  margin-bottom: 24px;
+  white-space: pre-wrap;
 }
 
-.status-card {
-  border-radius: 12px;
-}
-
-.card-head {
+.links {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  color: var(--monster-muted);
 }
 
-pre {
-  margin: 16px 0 0;
-  padding: 12px;
-  background: #0f172a;
-  color: #e2e8f0;
-  border-radius: 8px;
-  overflow: auto;
+.links a {
+  color: var(--monster-primary);
+  text-decoration: none;
 }
 </style>

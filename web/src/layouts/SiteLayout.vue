@@ -3,7 +3,7 @@
     <header class="site-header">
       <router-link class="brand" to="/">Monster</router-link>
       <nav>
-        <a href="#health">联调状态</a>
+        <router-link to="/">首页</router-link>
         <router-link to="/admin/login">后台</router-link>
       </nav>
     </header>

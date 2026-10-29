@@ -2,7 +2,7 @@
   <el-card shadow="never">
     <template #header>后台已打通</template>
     <p>当前登录账号：<strong>{{ profile?.username || auth.username }}</strong></p>
-    <p class="muted">这一步只做登录和空白管理页。下一步会接个人资料、项目和文章的后台编辑。</p>
+    <p class="muted">个人资料已经可以编辑。下一步会做项目集的后台维护。</p>
   </el-card>
 </template>
 

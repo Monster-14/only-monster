@@ -19,3 +19,14 @@ export interface AdminProfile {
   id: number
   username: string
 }
+
+export interface SiteProfile {
+  name: string
+  headline: string
+  bio: string
+  avatarUrl: string
+  email: string
+  githubUrl: string
+  blogUrl: string
+  wechat: string
+}

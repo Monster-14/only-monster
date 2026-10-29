@@ -4,6 +4,7 @@
       <div class="logo">Monster Admin</div>
       <el-menu router :default-active="route.path" background-color="#0f172a" text-color="#cbd5e1" active-text-color="#93c5fd">
         <el-menu-item index="/admin">概览</el-menu-item>
+        <el-menu-item index="/admin/profile">个人资料</el-menu-item>
       </el-menu>
     </el-aside>
     <el-container>
