@@ -25,7 +25,7 @@ nvm use 18.20.4
 mysql -uroot -p1234 < sql/init.sql
 ```
 
-会创建库 `monster_portfolio`、管理员表和资料表。后端第一次启动会写入默认管理员：
+会创建库 `monster_portfolio`、管理员、资料和项目表。后端第一次启动会写入默认管理员：
 
 - 用户名：`admin`
 - 密码：`admin123`
@@ -52,5 +52,6 @@ npm run dev
 1. 脚手架、统一响应、本地代理
 2. 管理员 JWT 登录、后台空白页
 3. 个人资料后台编辑，前台首页读取
+4. 项目集：后台 CRUD，前台列表/详情
 
-下一步：项目集 CRUD。
+下一步：文章 Markdown。

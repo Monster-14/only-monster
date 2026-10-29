@@ -30,3 +30,17 @@ export interface SiteProfile {
   blogUrl: string
   wechat: string
 }
+
+export interface ProjectItem {
+  id: number
+  slug: string
+  title: string
+  coverUrl: string
+  summary: string
+  content: string
+  techStack: string[]
+  demoUrl: string
+  repoUrl: string
+  status: number
+  sort: number
+}

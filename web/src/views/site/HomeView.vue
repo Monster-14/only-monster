@@ -14,21 +14,36 @@
       </div>
     </div>
     <el-skeleton v-else :rows="4" animated />
+    <section v-if="projects.length" class="featured">
+      <div class="featured-head">
+        <h2>精选项目</h2>
+        <router-link to="/projects">全部项目</router-link>
+      </div>
+      <div class="grid">
+        <router-link v-for="item in projects" :key="item.id" class="card" :to="`/projects/${item.slug}`">
+          <h3>{{ item.title }}</h3>
+          <p>{{ item.summary }}</p>
+        </router-link>
+      </div>
+    </section>
   </section>
 </template>
 
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
 import { fetchPublicProfile } from '@/api/profile'
-import type { SiteProfile } from '@/api/types'
+import { fetchPublicProjects } from '@/api/project'
+import type { ProjectItem, SiteProfile } from '@/api/types'
 
 const profile = ref<SiteProfile | null>(null)
+const projects = ref<ProjectItem[]>([])
 
 const initials = computed(() => (profile.value?.name || 'M').slice(0, 1).toUpperCase())
 
 onMounted(async () => {
-  const { data } = await fetchPublicProfile()
-  profile.value = data.data
+  const [profileRes, projectRes] = await Promise.all([fetchPublicProfile(), fetchPublicProjects()])
+  profile.value = profileRes.data.data
+  projects.value = projectRes.data.data.slice(0, 3)
 })
 </script>
 
@@ -92,5 +107,52 @@ h1 {
 .links a {
   color: var(--monster-primary);
   text-decoration: none;
+}
+
+.featured {
+  width: 100%;
+  margin-top: 56px;
+}
+
+.featured-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.featured-head h2 {
+  margin: 0;
+}
+
+.featured-head a {
+  color: var(--monster-primary);
+  text-decoration: none;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.card {
+  display: block;
+  padding: 20px;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.card h3 {
+  margin: 0 0 8px;
+}
+
+.card p {
+  margin: 0;
+  color: var(--monster-muted);
+  line-height: 1.6;
 }
 </style>

@@ -15,6 +15,16 @@ const router = createRouter({
           name: 'home',
           component: () => import('@/views/site/HomeView.vue'),
         },
+        {
+          path: 'projects',
+          name: 'projects',
+          component: () => import('@/views/site/ProjectsView.vue'),
+        },
+        {
+          path: 'projects/:slug',
+          name: 'project-detail',
+          component: () => import('@/views/site/ProjectDetailView.vue'),
+        },
       ],
     },
     {
@@ -36,6 +46,16 @@ const router = createRouter({
           path: 'profile',
           name: 'admin-profile',
           component: () => import('@/views/admin/ProfileView.vue'),
+        },
+        {
+          path: 'projects',
+          name: 'admin-projects',
+          component: () => import('@/views/admin/ProjectListView.vue'),
+        },
+        {
+          path: 'projects/:id',
+          name: 'admin-project-edit',
+          component: () => import('@/views/admin/ProjectEditView.vue'),
         },
       ],
     },

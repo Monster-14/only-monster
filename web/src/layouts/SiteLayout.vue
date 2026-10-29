@@ -4,6 +4,7 @@
       <router-link class="brand" to="/">Monster</router-link>
       <nav>
         <router-link to="/">首页</router-link>
+        <router-link to="/projects">项目</router-link>
         <router-link to="/admin/login">后台</router-link>
       </nav>
     </header>

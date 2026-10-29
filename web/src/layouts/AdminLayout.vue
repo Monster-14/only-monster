@@ -2,9 +2,10 @@
   <el-container class="admin">
     <el-aside width="220px" class="aside">
       <div class="logo">Monster Admin</div>
-      <el-menu router :default-active="route.path" background-color="#0f172a" text-color="#cbd5e1" active-text-color="#93c5fd">
+      <el-menu router :default-active="activeMenu" background-color="#0f172a" text-color="#cbd5e1" active-text-color="#93c5fd">
         <el-menu-item index="/admin">概览</el-menu-item>
         <el-menu-item index="/admin/profile">个人资料</el-menu-item>
+        <el-menu-item index="/admin/projects">项目</el-menu-item>
       </el-menu>
     </el-aside>
     <el-container>
@@ -20,12 +21,16 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 
 const route = useRoute()
 const router = useRouter()
 const auth = useAuthStore()
+const activeMenu = computed(() =>
+  route.path.startsWith('/admin/projects') ? '/admin/projects' : route.path,
+)
 
 function logout() {
   auth.clearSession()
