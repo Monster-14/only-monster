@@ -7,6 +7,7 @@
         <el-menu-item index="/admin/profile">个人资料</el-menu-item>
         <el-menu-item index="/admin/projects">项目</el-menu-item>
         <el-menu-item index="/admin/articles">文章</el-menu-item>
+        <el-menu-item index="/admin/messages">留言</el-menu-item>
       </el-menu>
     </el-aside>
     <el-container>

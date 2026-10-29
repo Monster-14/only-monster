@@ -11,6 +11,7 @@
         <a v-if="profile.email" :href="`mailto:${profile.email}`">邮箱</a>
         <a v-if="profile.blogUrl" :href="profile.blogUrl" target="_blank" rel="noreferrer">博客</a>
         <span v-if="profile.wechat">微信：{{ profile.wechat }}</span>
+        <router-link class="cta" to="/contact">留言联系</router-link>
       </div>
     </div>
     <el-skeleton v-else :rows="4" animated />

@@ -55,3 +55,13 @@ export interface ArticleItem {
   status: number
   publishedAt: string | null
 }
+
+export interface MessageItem {
+  id: number
+  nickname: string
+  email: string
+  content: string
+  status: number
+  ip: string
+  createdAt: string
+}

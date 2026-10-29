@@ -6,6 +6,7 @@
         <router-link to="/">首页</router-link>
         <router-link to="/projects">项目</router-link>
         <router-link to="/blog">文章</router-link>
+        <router-link to="/contact">联系</router-link>
         <router-link to="/admin/login">后台</router-link>
       </nav>
     </header>

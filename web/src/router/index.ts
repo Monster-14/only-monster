@@ -35,6 +35,11 @@ const router = createRouter({
           name: 'blog-detail',
           component: () => import('@/views/site/BlogDetailView.vue'),
         },
+        {
+          path: 'contact',
+          name: 'contact',
+          component: () => import('@/views/site/ContactView.vue'),
+        },
       ],
     },
     {
@@ -76,6 +81,11 @@ const router = createRouter({
           path: 'articles/:id',
           name: 'admin-article-edit',
           component: () => import('@/views/admin/ArticleEditView.vue'),
+        },
+        {
+          path: 'messages',
+          name: 'admin-messages',
+          component: () => import('@/views/admin/MessageListView.vue'),
         },
       ],
     },
