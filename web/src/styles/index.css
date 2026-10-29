@@ -1,9 +1,10 @@
 :root {
-  --monster-primary: #2563eb;
-  --monster-primary-dark: #1d4ed8;
-  --monster-bg: #f5f7fb;
-  --monster-text: #0f172a;
-  --monster-muted: #64748b;
+  --monster-primary: #635bff;
+  --monster-primary-dark: #4f48d6;
+  --monster-bg: #f5f3ee;
+  --monster-text: #202124;
+  --monster-muted: #6b6560;
+  --el-color-primary: #635bff;
 }
 
 * {
@@ -17,8 +18,22 @@ body,
   min-height: 100%;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
 body {
-  font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-family: "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
   color: var(--monster-text);
   background: var(--monster-bg);
+}
+
+::selection {
+  background: rgba(99, 91, 255, 0.18);
 }

@@ -5,6 +5,15 @@ import { useAuthStore } from '@/stores/auth'
 
 const router = createRouter({
   history: createWebHistory(),
+  scrollBehavior(to) {
+    if (to.hash === '#resume') {
+      return false
+    }
+    if (to.hash) {
+      return { el: to.hash, top: 72 }
+    }
+    return { top: 0 }
+  },
   routes: [
     {
       path: '/',

@@ -1,24 +1,28 @@
 <template>
   <section class="page">
-    <h1>联系我</h1>
-    <p class="lead">有合作或想打招呼，可以直接留言。</p>
+    <p class="kicker">联系</p>
+    <h1>打个招呼</h1>
+    <p class="lead">有合作或想认识，可以直接留言。</p>
     <div v-if="profile" class="social">
       <a v-if="profile.email" :href="`mailto:${profile.email}`">{{ profile.email }}</a>
       <a v-if="profile.githubUrl" :href="profile.githubUrl" target="_blank" rel="noreferrer">GitHub</a>
       <span v-if="profile.wechat">微信：{{ profile.wechat }}</span>
     </div>
-    <el-form class="form" :model="form" label-position="top" @submit.prevent="onSubmit">
-      <el-form-item label="称呼">
-        <el-input v-model="form.nickname" maxlength="32" />
-      </el-form-item>
-      <el-form-item label="邮箱（选填）">
-        <el-input v-model="form.email" maxlength="128" />
-      </el-form-item>
-      <el-form-item label="留言">
-        <el-input v-model="form.content" type="textarea" :rows="5" maxlength="500" show-word-limit />
-      </el-form-item>
-      <el-button type="primary" :loading="submitting" @click="onSubmit">发送</el-button>
-    </el-form>
+    <form class="form" @submit.prevent="onSubmit">
+      <label>
+        称呼
+        <input v-model="form.nickname" maxlength="32" required />
+      </label>
+      <label>
+        邮箱（选填）
+        <input v-model="form.email" maxlength="128" type="email" />
+      </label>
+      <label>
+        留言
+        <textarea v-model="form.content" rows="5" maxlength="500" required />
+      </label>
+      <button class="btn" type="submit" :disabled="submitting">{{ submitting ? '发送中…' : '发送' }}</button>
+    </form>
   </section>
 </template>
 
@@ -38,8 +42,12 @@ const form = reactive({
 })
 
 onMounted(async () => {
-  const { data } = await fetchPublicProfile()
-  profile.value = data.data
+  try {
+    const { data } = await fetchPublicProfile()
+    profile.value = data.data
+  } catch {
+    profile.value = null
+  }
 })
 
 async function onSubmit() {
@@ -61,31 +69,72 @@ async function onSubmit() {
 <style scoped>
 .page {
   max-width: 640px;
-  margin: 0 auto;
-  padding: 48px 24px 80px;
+  padding: 48px 0 96px;
+}
+
+.kicker {
+  color: #635bff;
+  font-size: 14px;
+}
+
+h1 {
+  margin: 8px 0 12px;
+  font-size: 42px;
+  letter-spacing: -0.04em;
 }
 
 .lead,
 .social {
-  color: var(--monster-muted);
+  color: #6b6560;
 }
 
 .social {
   display: flex;
   flex-wrap: wrap;
   gap: 16px;
-  margin-bottom: 28px;
+  margin: 16px 0 28px;
 }
 
 .social a {
-  color: var(--monster-primary);
+  color: #635bff;
   text-decoration: none;
 }
 
 .form {
-  background: #fff;
-  padding: 24px;
+  display: grid;
+  gap: 16px;
+}
+
+label {
+  display: grid;
+  gap: 8px;
+  font-size: 14px;
+}
+
+input,
+textarea {
+  width: 100%;
+  border: 1px solid #e4ddd2;
+  background: #fffcf7;
+  color: inherit;
+  font: inherit;
   border-radius: 12px;
-  border: 1px solid #e2e8f0;
+  padding: 10px 12px;
+}
+
+.btn {
+  width: fit-content;
+  min-height: 44px;
+  padding: 0 20px;
+  border: 0;
+  border-radius: 999px;
+  background: #635bff;
+  color: #fff;
+  font: inherit;
+  cursor: pointer;
+}
+
+.btn:disabled {
+  opacity: 0.6;
 }
 </style>

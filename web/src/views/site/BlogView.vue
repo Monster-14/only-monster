@@ -1,15 +1,18 @@
 <template>
   <section class="page">
-    <h1>文章</h1>
+    <p class="kicker">文章</p>
+    <h1>技术笔记</h1>
     <p class="lead">已发布的 Markdown 文章会显示在这里。</p>
-    <div v-if="articles.length" class="list">
-      <router-link v-for="item in articles" :key="item.id" class="card" :to="`/blog/${item.slug}`">
+    <div v-if="loading" class="muted">正在读取文章…</div>
+    <p v-else-if="error" class="muted">{{ error }}</p>
+    <div v-else-if="articles.length" class="list">
+      <router-link v-for="item in articles" :key="item.id" class="row" :to="`/blog/${item.slug}`">
         <h2>{{ item.title }}</h2>
         <p>{{ item.summary }}</p>
-        <span v-if="item.publishedAt" class="date">{{ formatDate(item.publishedAt) }}</span>
+        <span v-if="item.publishedAt">{{ item.publishedAt.slice(0, 10) }}</span>
       </router-link>
     </div>
-    <el-empty v-else description="还没有已发布的文章" />
+    <p v-else class="muted">还没有已发布的文章。</p>
   </section>
 </template>
 
@@ -19,59 +22,62 @@ import { fetchPublicArticles } from '@/api/article'
 import type { ArticleItem } from '@/api/types'
 
 const articles = ref<ArticleItem[]>([])
-
-function formatDate(value: string) {
-  return value.slice(0, 10)
-}
+const loading = ref(true)
+const error = ref('')
 
 onMounted(async () => {
-  const { data } = await fetchPublicArticles()
-  articles.value = data.data
+  try {
+    const { data } = await fetchPublicArticles()
+    articles.value = data.data
+  } catch {
+    error.value = '文章列表暂时无法加载。'
+  } finally {
+    loading.value = false
+  }
 })
 </script>
 
 <style scoped>
 .page {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 48px 24px 80px;
+  max-width: 760px;
+  padding: 48px 0 96px;
 }
 
-.lead {
-  color: var(--monster-muted);
-  margin-bottom: 32px;
+.kicker {
+  color: #635bff;
+  font-size: 14px;
+}
+
+h1 {
+  margin: 8px 0 12px;
+  font-size: 42px;
+  letter-spacing: -0.04em;
+}
+
+.lead,
+.muted,
+.row p,
+.row span {
+  color: #6b6560;
+  line-height: 1.7;
 }
 
 .list {
   display: grid;
-  gap: 16px;
+  gap: 8px;
+  margin-top: 32px;
 }
 
-.card {
+.row {
   display: block;
-  padding: 20px;
-  background: #fff;
-  border: 1px solid #e2e8f0;
-  border-radius: 12px;
+  padding: 20px 0;
+  border-bottom: 1px solid #e8e1d6;
   text-decoration: none;
   color: inherit;
 }
 
-.card h2 {
+h2 {
   margin: 0 0 8px;
-  font-size: 20px;
-}
-
-.card p {
-  margin: 0;
-  color: var(--monster-muted);
-  line-height: 1.6;
-}
-
-.date {
-  display: inline-block;
-  margin-top: 12px;
-  color: var(--monster-muted);
-  font-size: 13px;
+  font-size: 24px;
 }
 </style>

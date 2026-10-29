@@ -10,45 +10,59 @@
       <a v-if="project.demoUrl" :href="project.demoUrl" target="_blank" rel="noreferrer">在线演示</a>
       <a v-if="project.repoUrl" :href="project.repoUrl" target="_blank" rel="noreferrer">源码仓库</a>
     </div>
+    <p v-if="extra?.goal"><span>目标</span>{{ extra.goal }}</p>
+    <p v-if="extra?.contribution"><span>贡献</span>{{ extra.contribution }}</p>
+    <p v-if="extra?.outcome"><span>成果</span>{{ extra.outcome }}</p>
+    <img v-if="project.coverUrl" class="cover" :src="project.coverUrl" :alt="project.title" />
     <article class="content">{{ project.content }}</article>
+  </section>
+  <section v-else class="page">
+    <p class="summary">{{ error || '正在读取项目…' }}</p>
   </section>
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { fetchPublicProject } from '@/api/project'
+import { highlightFor } from '@/data/resume'
 import type { ProjectItem } from '@/api/types'
 
 const route = useRoute()
 const router = useRouter()
 const project = ref<ProjectItem | null>(null)
+const error = ref('')
+const extra = computed(() => (project.value ? highlightFor(project.value.slug) : undefined))
 
 onMounted(async () => {
   try {
     const { data } = await fetchPublicProject(String(route.params.slug))
     project.value = data.data
   } catch {
-    router.replace('/projects')
+    error.value = '没有找到这个项目。'
+    setTimeout(() => router.replace('/projects'), 1200)
   }
 })
 </script>
 
 <style scoped>
 .page {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 48px 24px 80px;
+  max-width: 760px;
+  padding: 48px 0 96px;
 }
 
-.back {
-  color: var(--monster-muted);
+.back,
+.summary,
+.content {
+  color: #6b6560;
   text-decoration: none;
+  line-height: 1.8;
 }
 
-.summary {
-  color: var(--monster-muted);
-  line-height: 1.7;
+h1 {
+  margin: 16px 0;
+  font-size: 40px;
+  letter-spacing: -0.04em;
 }
 
 .tags,
@@ -59,21 +73,28 @@ onMounted(async () => {
   margin: 16px 0;
 }
 
-.tags span {
-  font-size: 12px;
-  color: var(--monster-primary);
-  background: #eff4ff;
-  padding: 2px 8px;
-  border-radius: 999px;
+.tags span,
+.links a,
+p span {
+  color: #635bff;
 }
 
-.links a {
-  color: var(--monster-primary);
-  text-decoration: none;
+p span {
+  display: inline-block;
+  min-width: 42px;
+  margin-right: 8px;
+}
+
+.cover {
+  width: 100%;
+  max-height: 320px;
+  object-fit: cover;
+  border-radius: 18px;
+  margin: 16px 0;
 }
 
 .content {
   white-space: pre-wrap;
-  line-height: 1.8;
+  user-select: text;
 }
 </style>
