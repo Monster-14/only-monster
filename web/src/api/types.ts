@@ -9,3 +9,13 @@ export interface HealthData {
   status: string
   time: string
 }
+
+export interface LoginData {
+  token: string
+  username: string
+}
+
+export interface AdminProfile {
+  id: number
+  username: string
+}

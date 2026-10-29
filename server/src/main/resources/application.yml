@@ -4,9 +4,27 @@ server:
 spring:
   application:
     name: monster-portfolio
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/monster_portfolio?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+    username: root
+    password: 1234
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+  global-config:
+    db-config:
+      id-type: auto
 
 monster:
   cors:
     allowed-origins:
       - http://localhost:5173
       - http://127.0.0.1:5173
+  jwt:
+    secret: monster-local-dev-secret-change-me-32bytes
+    expire-days: 7
+  admin:
+    username: admin
+    password: admin123

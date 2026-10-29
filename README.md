@@ -1,31 +1,41 @@
 # Monster 个人主页
 
-Vue 3 + Spring Boot 3.3（JDK 17）的个人主页项目。当前完成的是第一步：前后端脚手架、统一响应、跨域和本地代理。
+Vue 3 + Spring Boot 3.3（JDK 17）的个人主页项目。
 
 ## 目录
 
 ```text
 only-monster/
 ├── web/      Vue3 前台（Vite 5，端口 5173）
-└── server/   Spring Boot 后台（端口 8080）
+├── server/   Spring Boot 后台（端口 8080）
+└── sql/      建库脚本
 ```
 
-本机需要 **Node 18**（仓库已写 `web/.nvmrc`）和 **JDK 17**。若默认还是 Node 16，先执行：
+本机需要 **Node 18**（`web/.nvmrc`）、**JDK 17**、**MySQL 8**。若默认还是 Node 16：
 
 ```bash
 nvm use 18.20.4
 ```
 
-## 启动
+## 数据库
 
-先开后端：
+账号：`root` / `1234`。首次执行：
+
+```bash
+mysql -uroot -p1234 < sql/init.sql
+```
+
+会创建库 `monster_portfolio` 和表 `admin_user`。后端第一次启动会写入默认管理员：
+
+- 用户名：`admin`
+- 密码：`admin123`
+
+## 启动
 
 ```bash
 cd server
 mvn spring-boot:run
 ```
-
-再开前端：
 
 ```bash
 cd web
@@ -33,24 +43,13 @@ npm install
 npm run dev
 ```
 
-浏览器打开 [http://localhost:5173](http://localhost:5173)。首页会请求 `/api/public/health`，Vite 会把 `/api` 代理到 `8080`。也可以直接访问 [http://localhost:8080/api/public/health](http://localhost:8080/api/public/health)。
+- 前台：[http://localhost:5173](http://localhost:5173)
+- 后台登录：[http://localhost:5173/admin/login](http://localhost:5173/admin/login)
+- 健康检查：[http://localhost:8080/api/public/health](http://localhost:8080/api/public/health)
 
-成功时返回：
+## 当前进度
 
-```json
-{
-  "code": 0,
-  "message": "ok",
-  "data": {
-    "app": "monster-portfolio",
-    "status": "UP"
-  }
-}
-```
+1. 脚手架、统一响应、本地代理
+2. 管理员 JWT 登录、后台空白页
 
-## 这一步还没有
-
-- 数据库 / MyBatis-Plus
-- 登录与 JWT
-- 后台管理页
-- 3D 简历
+下一步：个人资料后台编辑。

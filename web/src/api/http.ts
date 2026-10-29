@@ -1,10 +1,19 @@
 import axios from 'axios'
 import { ElMessage } from 'element-plus'
+import { useAuthStore } from '@/stores/auth'
 import type { ApiResult } from './types'
 
 const http = axios.create({
   baseURL: '/api',
   timeout: 10000,
+})
+
+http.interceptors.request.use((config) => {
+  const token = localStorage.getItem('monster_token')
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`
+  }
+  return config
 })
 
 http.interceptors.response.use(
@@ -17,7 +26,15 @@ http.interceptors.response.use(
     return response
   },
   (error) => {
+    const status = error.response?.status
     const message = error.response?.data?.message || error.message || '网络异常'
+    if (status === 401) {
+      const auth = useAuthStore()
+      auth.clearSession()
+      if (!window.location.pathname.startsWith('/admin/login')) {
+        window.location.assign('/admin/login')
+      }
+    }
     ElMessage.error(message)
     return Promise.reject(error)
   },

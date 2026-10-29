@@ -4,12 +4,13 @@
       <router-link class="brand" to="/">Monster</router-link>
       <nav>
         <a href="#health">联调状态</a>
+        <router-link to="/admin/login">后台</router-link>
       </nav>
     </header>
     <main class="site-main">
       <router-view />
     </main>
-    <footer class="site-footer">Vue3 + Spring Boot 脚手架 · 第一步</footer>
+    <footer class="site-footer">Vue3 + Spring Boot · Monster</footer>
   </div>
 </template>
 
@@ -35,6 +36,11 @@
   color: var(--monster-primary);
   text-decoration: none;
   font-size: 20px;
+}
+
+.site-header nav {
+  display: flex;
+  gap: 16px;
 }
 
 .site-header nav a {
