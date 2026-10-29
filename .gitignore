@@ -1,0 +1,30 @@
+# IDE
+.idea/
+*.iml
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db
+
+# Frontend
+web/node_modules/
+web/dist/
+web/.env.local
+web/.env.*.local
+
+# Backend
+server/target/
+server/.mvn/wrapper/maven-wrapper.jar
+*.class
+*.log
+hs_err_pid*
+
+# Secrets
+**/.env
+**/application-local.yml
+**/application-secret.yml
+
+# Uploads
+server/uploads/
+*.glb
+*.hdr
