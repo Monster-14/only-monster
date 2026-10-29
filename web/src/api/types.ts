@@ -44,3 +44,14 @@ export interface ProjectItem {
   status: number
   sort: number
 }
+
+export interface ArticleItem {
+  id: number
+  slug: string
+  title: string
+  coverUrl: string
+  summary: string
+  contentMd: string
+  status: number
+  publishedAt: string | null
+}

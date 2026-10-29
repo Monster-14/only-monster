@@ -2,7 +2,7 @@
   <el-card shadow="never">
     <template #header>后台已打通</template>
     <p>当前登录账号：<strong>{{ profile?.username || auth.username }}</strong></p>
-    <p class="muted">资料和项目都可以在左侧菜单维护。下一步会接文章。</p>
+    <p class="muted">资料、项目和文章都可以在左侧菜单维护。</p>
   </el-card>
 </template>
 

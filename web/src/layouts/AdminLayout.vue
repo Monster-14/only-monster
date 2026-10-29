@@ -6,6 +6,7 @@
         <el-menu-item index="/admin">概览</el-menu-item>
         <el-menu-item index="/admin/profile">个人资料</el-menu-item>
         <el-menu-item index="/admin/projects">项目</el-menu-item>
+        <el-menu-item index="/admin/articles">文章</el-menu-item>
       </el-menu>
     </el-aside>
     <el-container>
@@ -28,9 +29,15 @@ import { useAuthStore } from '@/stores/auth'
 const route = useRoute()
 const router = useRouter()
 const auth = useAuthStore()
-const activeMenu = computed(() =>
-  route.path.startsWith('/admin/projects') ? '/admin/projects' : route.path,
-)
+const activeMenu = computed(() => {
+  if (route.path.startsWith('/admin/projects')) {
+    return '/admin/projects'
+  }
+  if (route.path.startsWith('/admin/articles')) {
+    return '/admin/articles'
+  }
+  return route.path
+})
 
 function logout() {
   auth.clearSession()

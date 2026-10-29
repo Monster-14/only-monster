@@ -25,6 +25,16 @@ const router = createRouter({
           name: 'project-detail',
           component: () => import('@/views/site/ProjectDetailView.vue'),
         },
+        {
+          path: 'blog',
+          name: 'blog',
+          component: () => import('@/views/site/BlogView.vue'),
+        },
+        {
+          path: 'blog/:slug',
+          name: 'blog-detail',
+          component: () => import('@/views/site/BlogDetailView.vue'),
+        },
       ],
     },
     {
@@ -56,6 +66,16 @@ const router = createRouter({
           path: 'projects/:id',
           name: 'admin-project-edit',
           component: () => import('@/views/admin/ProjectEditView.vue'),
+        },
+        {
+          path: 'articles',
+          name: 'admin-articles',
+          component: () => import('@/views/admin/ArticleListView.vue'),
+        },
+        {
+          path: 'articles/:id',
+          name: 'admin-article-edit',
+          component: () => import('@/views/admin/ArticleEditView.vue'),
         },
       ],
     },

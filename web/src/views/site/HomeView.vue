@@ -14,6 +14,18 @@
       </div>
     </div>
     <el-skeleton v-else :rows="4" animated />
+    <section v-if="articles.length" class="featured">
+      <div class="featured-head">
+        <h2>最新文章</h2>
+        <router-link to="/blog">全部文章</router-link>
+      </div>
+      <div class="grid">
+        <router-link v-for="item in articles" :key="item.id" class="card" :to="`/blog/${item.slug}`">
+          <h3>{{ item.title }}</h3>
+          <p>{{ item.summary }}</p>
+        </router-link>
+      </div>
+    </section>
     <section v-if="projects.length" class="featured">
       <div class="featured-head">
         <h2>精选项目</h2>
@@ -33,17 +45,24 @@
 import { computed, onMounted, ref } from 'vue'
 import { fetchPublicProfile } from '@/api/profile'
 import { fetchPublicProjects } from '@/api/project'
-import type { ProjectItem, SiteProfile } from '@/api/types'
+import { fetchPublicArticles } from '@/api/article'
+import type { ArticleItem, ProjectItem, SiteProfile } from '@/api/types'
 
 const profile = ref<SiteProfile | null>(null)
 const projects = ref<ProjectItem[]>([])
+const articles = ref<ArticleItem[]>([])
 
 const initials = computed(() => (profile.value?.name || 'M').slice(0, 1).toUpperCase())
 
 onMounted(async () => {
-  const [profileRes, projectRes] = await Promise.all([fetchPublicProfile(), fetchPublicProjects()])
+  const [profileRes, projectRes, articleRes] = await Promise.all([
+    fetchPublicProfile(),
+    fetchPublicProjects(),
+    fetchPublicArticles(),
+  ])
   profile.value = profileRes.data.data
   projects.value = projectRes.data.data.slice(0, 3)
+  articles.value = articleRes.data.data.slice(0, 3)
 })
 </script>
 
